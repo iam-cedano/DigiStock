@@ -1,0 +1,12 @@
+FROM nginxinc/nginx-unprivileged:1.24-alpine
+
+USER root
+
+RUN mkdir -p /var/www/html/ \
+    && mkdir -p /var/www/html/public/
+
+RUN chown -R nginx:nginx /var/www/html
+
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+USER nginx

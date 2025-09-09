@@ -1,0 +1,57 @@
+FROM alpine:3.19
+
+ARG UID
+ARG GID
+
+USER root
+
+RUN apk add --no-cache \
+    php83 \
+    php83-fpm \
+    php83-pecl-xdebug \
+    php83-zip \
+    php83-curl \
+    php83-mbstring \
+    php83-iconv \
+    php83-openssl \
+    php83-phar \
+    php83-dom \
+    php83-xml \
+    php83-ctype \
+    php83-session \
+    php83-tokenizer \
+    php83-xmlwriter \
+    php83-fileinfo \
+    php83-pdo \
+    php83-pdo_mysql \
+    php83-pecl-redis \
+    nodejs \
+    npm
+
+
+RUN addgroup -g ${GID:-1000} -S php-fpm && \
+    adduser -u ${UID:-1000} -S php-fpm -G php-fpm
+
+RUN mkdir -p /var/log/php83/ \
+    && chown root:php-fpm /var/log/php83 \
+    && chmod g+rwx /var/log/php83
+
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /etc/php83/php-fpm.d/www.conf \
+    && sed -i 's/;daemonize = yes/daemonize = no/' /etc/php83/php-fpm.conf
+
+RUN mkdir -p /etc/php83/conf.d/
+
+RUN echo "zend_extension=xdebug" > /etc/php83/conf.d/yyy-xdebug.ini \
+    && echo "xdebug.mode=develop,debug,coverage,trace,profile,gcstats" >> /etc/php83/conf.d/yyy-xdebug.ini
+
+RUN echo "extension=memcached.so" > /etc/php83/conf.d/zzz-memcached.ini
+
+COPY ./php-fpm/php/php.ini-development /etc/php83/php.ini
+
+WORKDIR /var/www/html
+
+EXPOSE 9000
+
+USER php-fpm
+
+CMD ["php-fpm83"]

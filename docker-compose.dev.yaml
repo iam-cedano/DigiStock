@@ -1,0 +1,110 @@
+services:
+  php-fpm:
+    build: 
+      context: ./dev
+      dockerfile: Dockerfile.dev.php-fpm
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    networks:
+      - almacemax-network
+      - almacemax-cache-network
+    ports:
+      - "9000:9000"
+    volumes:
+      # php-fpm gets the ENTIRE project mounted to /var/www/html
+      - almacemax-php-fpm-project:/var/www/html
+    depends_on:
+      - db
+        
+  nginx:
+    build: 
+      context: ./dev
+      dockerfile: Dockerfile.dev.nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./dev/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./dev/nginx/logs/:/var/log/nginx/
+      # Nginx ONLY gets the public folder, mounted to its document root.
+      - almacemax-php-fpm-project-public:/var/www/html/public
+    networks:
+      - almacemax-network
+    depends_on:
+      - php-fpm
+  
+  # ... (rest of your services remain the same)
+  redis:
+    build:
+      context: ./dev
+      dockerfile: Dockerfile.dev.redis
+    ports:
+      - "6379:6379"
+    networks:
+      - almacemax-cache-network
+    depends_on:
+      - php-fpm
+
+  workspace:
+    build:
+      context: ./dev
+      dockerfile: Dockerfile.dev.workspace
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    volumes: 
+      - almacemax-php-fpm-project:/var/www/html
+    networks:
+      - almacemax-network
+      - almacemax-cache-network
+    tty: true
+    env_file:
+      - ./dev/workspace/.env.db
+  
+  db:
+    build:
+      context: ./dev
+      dockerfile: Dockerfile.dev.db
+    ports:
+      - "3306:3306"
+    volumes:  
+      - almacemax-db-dev:/var/lib/mysql
+      - ./dev/db/scripts/:/docker-entrypoint-initdb.d/
+    networks:
+      - almacemax-network
+    env_file:
+      - ./dev/db/.env.db
+  
+  redis-insight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "5540:5540"
+    networks:
+      - almacemax-cache-network
+    depends_on:
+      - redis
+    
+volumes:
+  # This volume points to your entire project directory
+  almacemax-php-fpm-project:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./dev/php-fpm/project/
+
+  # This volume points ONLY to the public sub-directory
+  almacemax-php-fpm-project-public:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./dev/php-fpm/project/public/
+
+  almacemax-db-dev:
+
+networks:
+  almacemax-network:
+    driver: bridge
+  almacemax-cache-network:
+    driver: bridge
