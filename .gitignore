@@ -28,3 +28,6 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+prod/redis/redis.conf
+dev/redis/redis.conf
