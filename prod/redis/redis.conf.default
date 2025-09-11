@@ -1,0 +1,7 @@
+# Set a memory limit slightly below the container's 64M limit to account for overhead.
+maxmemory 50mb
+
+# When the memory limit is reached, Redis will remove the least recently used keys.
+maxmemory-policy allkeys-lru
+
+requirepass null

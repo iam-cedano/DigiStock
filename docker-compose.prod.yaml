@@ -1,0 +1,123 @@
+# docker-compose.yml
+
+services:
+  php-fpm:
+    build: 
+      context: ./prod
+      dockerfile: Dockerfile.prod.php-fpm
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    networks:
+      - digistock-prod-network
+      - digistock-prod-cache-network
+    ports:
+      - "9000:9000"
+      - "5173:5173"
+    volumes:
+      - digistock-prod-php-fpm-project:/var/www/html
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 192M
+        
+  nginx:
+    build: 
+      context: ./prod
+      dockerfile: Dockerfile.prod.nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./prod/nginx/logs/:/var/log/nginx/
+      - digistock-prod-php-fpm-project-public:/var/www/html/public
+    networks:
+      - digistock-prod-network
+    depends_on:
+      - php-fpm
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 64M
+  
+  redis:
+    build:
+      context: ./prod
+      dockerfile: Dockerfile.prod.redis
+    ports:
+      - "6379:6379"
+    networks:
+      - digistock-prod-cache-network
+    depends_on:
+      - php-fpm
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 64M
+
+  workspace:
+    build:
+      context: ./prod
+      dockerfile: Dockerfile.prod.workspace
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    volumes: 
+      - digistock-prod-php-fpm-project:/var/www/html
+    networks:
+      - digistock-prod-network
+      - digistock-prod-cache-network
+    tty: true
+    env_file:
+      - ./prod/workspace/.env.db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 128M
+  
+  db:
+    build:
+      context: ./prod
+      dockerfile: Dockerfile.prod.db
+    ports:
+      - "3306:3306"
+    volumes:  
+      - digistock-prod-db:/var/lib/mysql
+      - ./prod/db/scripts/:/docker-entrypoint-initdb.d/
+    networks:
+      - digistock-prod-network
+    env_file:
+      - ./prod/db/.env.db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+  
+volumes:
+  digistock-prod-php-fpm-project:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./prod/php-fpm/project/
+
+  digistock-prod-php-fpm-project-public:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./prod/php-fpm/project/public/
+
+  digistock-prod-db:
+
+networks:
+  digistock-prod-network:
+    driver: bridge
+  digistock-prod-cache-network:
+    driver: bridge

@@ -1,0 +1,51 @@
+FROM alpine:3.20
+
+ARG UID
+ARG GID
+
+USER root
+
+RUN addgroup -g ${GID} workspace \
+    && adduser -u ${UID:-1000} -S workspace -G workspace
+
+RUN apk update \
+    && apk add --no-cache \
+    composer \
+    libzip-dev \
+    curl-dev \
+    openssl-dev \ 
+    php83 \
+    php83-zip \
+    php83-curl \
+    php83-mbstring \
+    php83-iconv \
+    php83-openssl \
+    php83-phar \
+    php83-dom \
+    php83-xml \
+    php83-ctype \
+    php83-session \
+    php83-tokenizer \
+    php83-xmlwriter \
+    php83-fileinfo \
+    php83-pdo \
+    php83-pdo_mysql \
+    nodejs \ 
+    php83-pecl-redis \
+    npm \
+    composer
+
+USER workspace
+
+RUN composer global require laravel/installer
+
+USER root
+
+RUN chown root:workspace /usr/bin/php83 /usr/bin/composer /bin/mkdir /bin/touch /var/log/ \
+    && chmod 750 /usr/bin/php83 /usr/bin/composer /bin/mkdir /bin/touch /var/log/
+
+WORKDIR /var/www/html/
+
+ENV PATH="/home/workspace/.composer/vendor/bin:$PATH"
+
+USER workspace

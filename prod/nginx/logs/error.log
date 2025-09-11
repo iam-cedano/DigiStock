@@ -1,0 +1,39 @@
+2025/09/09 08:14:55 [emerg] 40#40: bind() to 0.0.0.0:80 failed (98: Address in use)
+2025/09/09 08:14:55 [emerg] 40#40: bind() to 0.0.0.0:80 failed (98: Address in use)
+2025/09/09 08:15:49 [notice] 45#45: signal process started
+2025/09/09 08:16:14 [notice] 47#47: signal process started
+2025/09/09 08:16:56 [notice] 56#56: signal process started
+2025/09/09 08:17:30 [notice] 58#58: signal process started
+2025/09/09 08:17:35 [notice] 60#60: signal process started
+2025/09/09 08:17:41 [notice] 62#62: signal process started
+2025/09/09 08:17:59 [notice] 64#64: signal process started
+2025/09/09 08:21:15 [notice] 67#67: signal process started
+2025/09/09 08:21:58 [emerg] 69#69: invalid number of arguments in "try_files" directive in /etc/nginx/nginx.conf:28
+2025/09/09 08:22:15 [notice] 70#70: signal process started
+2025/09/09 08:22:51 [emerg] 72#72: unexpected ";" in /etc/nginx/nginx.conf:28
+2025/09/09 08:22:54 [notice] 73#73: signal process started
+2025/09/09 08:23:18 [emerg] 75#75: unexpected ";" in /etc/nginx/nginx.conf:29
+2025/09/09 08:23:21 [notice] 76#76: signal process started
+2025/09/09 08:25:36 [notice] 78#78: signal process started
+2025/09/09 08:25:50 [notice] 80#80: signal process started
+2025/09/09 08:26:09 [notice] 82#82: signal process started
+2025/09/09 08:26:36 [notice] 84#84: signal process started
+2025/09/09 08:26:50 [notice] 86#86: signal process started
+2025/09/09 08:27:00 [notice] 88#88: signal process started
+2025/09/09 08:28:05 [notice] 90#90: signal process started
+2025/09/09 08:28:30 [notice] 92#92: signal process started
+2025/09/09 08:28:48 [notice] 94#94: signal process started
+2025/09/09 08:29:25 [notice] 96#96: signal process started
+2025/09/09 08:29:40 [notice] 98#98: signal process started
+2025/09/09 08:30:49 [notice] 100#100: signal process started
+2025/09/09 08:31:31 [notice] 102#102: signal process started
+2025/09/09 08:31:48 [notice] 104#104: signal process started
+2025/09/09 08:33:49 [notice] 36#36: signal process started
+2025/09/09 08:41:55 [notice] 37#37: signal process started
+2025/09/09 08:42:09 [notice] 39#39: signal process started
+2025/09/09 08:43:16 [notice] 41#41: signal process started
+2025/09/09 08:43:24 [notice] 43#43: signal process started
+2025/09/09 08:43:27 [notice] 45#45: signal process started
+2025/09/09 08:46:29 [notice] 40#40: signal process started
+2025/09/09 08:46:29 [notice] 42#42: signal process started
+2025/09/09 08:50:03 [notice] 36#36: signal process started

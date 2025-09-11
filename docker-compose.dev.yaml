@@ -7,13 +7,13 @@ services:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
     networks:
-      - almacemax-network
-      - almacemax-cache-network
+      - digistock-dev-network
+      - digistock-dev-cache-network
     ports:
       - "9000:9000"
+      - "5173:5173"
     volumes:
-      # php-fpm gets the ENTIRE project mounted to /var/www/html
-      - almacemax-php-fpm-project:/var/www/html
+      - digistock-dev-php-fpm-project:/var/www/html
     depends_on:
       - db
         
@@ -26,14 +26,12 @@ services:
     volumes:
       - ./dev/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./dev/nginx/logs/:/var/log/nginx/
-      # Nginx ONLY gets the public folder, mounted to its document root.
-      - almacemax-php-fpm-project-public:/var/www/html/public
+      - digistock-dev-php-fpm-project-public:/var/www/html/public
     networks:
-      - almacemax-network
+      - digistock-dev-network
     depends_on:
       - php-fpm
   
-  # ... (rest of your services remain the same)
   redis:
     build:
       context: ./dev
@@ -41,7 +39,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - almacemax-cache-network
+      - digistock-dev-cache-network
     depends_on:
       - php-fpm
 
@@ -53,10 +51,10 @@ services:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
     volumes: 
-      - almacemax-php-fpm-project:/var/www/html
+      - digistock-dev-php-fpm-project:/var/www/html
     networks:
-      - almacemax-network
-      - almacemax-cache-network
+      - digistock-dev-network
+      - digistock-dev-cache-network
     tty: true
     env_file:
       - ./dev/workspace/.env.db
@@ -68,10 +66,10 @@ services:
     ports:
       - "3306:3306"
     volumes:  
-      - almacemax-db-dev:/var/lib/mysql
+      - digistock-dev-db:/var/lib/mysql
       - ./dev/db/scripts/:/docker-entrypoint-initdb.d/
     networks:
-      - almacemax-network
+      - digistock-dev-network
     env_file:
       - ./dev/db/.env.db
   
@@ -80,31 +78,33 @@ services:
     ports:
       - "5540:5540"
     networks:
-      - almacemax-cache-network
+      - digistock-dev-cache-network
+    volumes:
+      - digistock-dev-redis-insight-data:/data
     depends_on:
       - redis
     
 volumes:
-  # This volume points to your entire project directory
-  almacemax-php-fpm-project:
+  digistock-dev-php-fpm-project:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ./dev/php-fpm/project/
 
-  # This volume points ONLY to the public sub-directory
-  almacemax-php-fpm-project-public:
+  digistock-dev-php-fpm-project-public:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ./dev/php-fpm/project/public/
 
-  almacemax-db-dev:
+  digistock-dev-db:
+
+  digistock-dev-redis-insight-data:
 
 networks:
-  almacemax-network:
+  digistock-dev-network:
     driver: bridge
-  almacemax-cache-network:
+  digistock-dev-cache-network:
     driver: bridge

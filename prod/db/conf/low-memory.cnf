@@ -1,0 +1,19 @@
+# /dev/db/conf.d/low-memory.cnf
+
+[mysqld]
+# Disable the performance schema, which saves a significant amount of RAM
+performance_schema = Off
+
+# Lower the main buffer pool size, this is the biggest memory consumer
+innodb_buffer_pool_size = 128M
+
+# --- The following two lines for query_cache have been removed ---
+# query_cache_size = 16M (REMOVED)
+# query_cache_limit = 1M (REMOVED)
+
+# Other buffer and cache reductions
+innodb_log_buffer_size = 8M
+max_connections = 25
+key_buffer_size = 16M
+tmp_table_size = 8M
+max_heap_table_size = 8M
