@@ -11,5 +11,5 @@ Route::get('/hello', function () {
 });
 
 Route::get('/user/{name}', function ($name) {
-    return "Hello, $name!";
+    return "Hello, $name! You're awesome";
 });
