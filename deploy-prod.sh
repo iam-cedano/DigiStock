@@ -22,7 +22,7 @@ docker exec $service_name mkdir -p ./prod/php-fpm/project/storage/ 1>/dev/null;
 docker exec $service_name mkdir -p ./prod/php-fpm/project/vendor/ 1>/dev/null;
 docker exec $service_name mkdir -p ./prod/php-fpm/project/node_modules/ 1>/dev/null;
 
-APP_KEY=$(cat .env | grep APP_KEY |  cut -d "=" -f 2)
+APP_KEY=$(cat ./prod/php-fpm/project/.env | grep APP_KEY |  cut -d "=" -f 2)
 
 if [ -z "$APP_KEY" ]; then
     docker exec $service_name php artisan key:generate 1>/dev/null;
