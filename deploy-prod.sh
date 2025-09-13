@@ -11,7 +11,7 @@ docker compose -f docker-compose.prod.yaml down 1>/dev/null;
 
 rsync -aI --exclude-from='.php-fpm.rsync_ignore' ./dev/php-fpm/project/ ./prod/php-fpm/project/;
 
-chmod -R a+wrx ./prod/nginx/logs/
+chmod -R a+wr ./prod/
 
 docker compose -f docker-compose.prod.yaml up -d --build 1>/dev/null;
 
