@@ -2,7 +2,9 @@
 
 container_base=$(basename $(pwd) | tr '[:upper:]' '[:lower:]');
 service_name="$container_base-workspace-1";
-branch_name=${1:="main"};
+branch_name="${1:-main}"
+
+git restore .;
 
 git pull origin $branch_name;
 
