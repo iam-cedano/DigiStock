@@ -2,8 +2,9 @@
 
 container_base=$(basename $(pwd) | tr '[:upper:]' '[:lower:]');
 service_name="$container_base-workspace-1";
+branch_name=${1:="main"};
 
-git pull origin main;
+git pull origin $branch_name;
 
 chmod +x ./deploy-prod.sh;
 
