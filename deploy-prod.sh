@@ -11,6 +11,8 @@ docker compose -f docker-compose.prod.yaml down 1>/dev/null;
 
 rsync -aI --exclude-from='.php-fpm.rsync_ignore' ./dev/php-fpm/project/ ./prod/php-fpm/project/;
 
+chmod -R a+wrx ./prod/nginx/logs/
+
 docker compose -f docker-compose.prod.yaml up -d --build 1>/dev/null;
 
 docker exec $service_name mkdir -p ./prod/php-fpm/project/storage/ 1>/dev/null;
