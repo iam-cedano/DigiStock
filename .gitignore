@@ -31,3 +31,5 @@ auth.json
 
 prod/redis/redis.conf
 dev/redis/redis.conf
+
+prod/nginx/certificates/*.pem

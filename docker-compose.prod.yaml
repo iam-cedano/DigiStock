@@ -30,6 +30,7 @@ services:
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
       - digistock-prod-php-fpm-project-public:/var/www/html/public
+      - digistock-prod-ssl:/etc/letsencrypt/live/mazttek.studio/
     networks:
       - digistock-prod-network
     depends_on:
@@ -110,6 +111,13 @@ volumes:
       device: ./prod/php-fpm/project/public/
 
   digistock-prod-db:
+
+  digistock-prod-ssl:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./prod/nginx/certificates/
 
 networks:
   digistock-prod-network:
