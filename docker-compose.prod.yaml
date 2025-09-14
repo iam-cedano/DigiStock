@@ -26,7 +26,7 @@ services:
       context: ./prod
       dockerfile: Dockerfile.prod.nginx
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
       - digistock-prod-php-fpm-project-public:/var/www/html/public
