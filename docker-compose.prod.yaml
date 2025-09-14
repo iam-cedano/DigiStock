@@ -26,7 +26,7 @@ services:
       context: ./prod
       dockerfile: Dockerfile.prod.nginx
     ports:
-      - "443:443"
+      - "80:80"
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
       - ./prod/nginx/certificates/:/etc/letsencrypt/live/mazttek.studio/
