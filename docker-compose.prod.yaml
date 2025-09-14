@@ -29,7 +29,7 @@ services:
       - "80:80"
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
-      - ./prod/nginx/certificates/:/etc/letsencrypt/live/mazttek.studio/
+      - ./prod/nginx/certificates/:/etc/letsencrypt/live/mazttek.studio/:rw
       - digistock-prod-php-fpm-project-public:/var/www/html/public
     networks:
       - digistock-prod-network
