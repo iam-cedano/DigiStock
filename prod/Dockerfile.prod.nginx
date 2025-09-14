@@ -5,7 +5,7 @@ USER root
 RUN mkdir -p /var/www/html/ \
     && mkdir -p /var/www/html/public/
 
-COPY --chown=nginx:nginx /etc/letscript/live/mazttek.studio/ /etc/letsencrypt/live/mazttek.studio/
+COPY --chown=nginx:nginx /etc/letsencrypt/live/mazttek.studio/ /etc/letsencrypt/live/mazttek.studio/
 
 RUN chown -R nginx:nginx /var/www/html
 
