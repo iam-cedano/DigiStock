@@ -11,9 +11,6 @@ services:
     networks:
       - digistock-prod-network
       - digistock-prod-cache-network
-    ports:
-      - "9000:9000"
-      - "5173:5173"
     volumes:
       - digistock-prod-php-fpm-project:/var/www/html
     depends_on:
@@ -47,8 +44,6 @@ services:
     build:
       context: ./prod
       dockerfile: Dockerfile.prod.redis
-    ports:
-      - "6379:6379"
     networks:
       - digistock-prod-cache-network
     depends_on:
