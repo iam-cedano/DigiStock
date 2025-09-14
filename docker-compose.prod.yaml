@@ -29,7 +29,7 @@ services:
       - "80:80"
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
-      - ./prod/nginx/certificates/:/etc/letsencrypt/live/mazttek.studio/:rw
+      - ./prod/nginx/certificates/:/etc/letsencrypt/live/mazttek.studio/
       - digistock-prod-php-fpm-project-public:/var/www/html/public
     networks:
       - digistock-prod-network
@@ -74,7 +74,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 128M
+          memory: 128M  
   
   db:
     build:

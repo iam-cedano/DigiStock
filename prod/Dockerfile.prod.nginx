@@ -2,13 +2,6 @@ FROM nginxinc/nginx-unprivileged:1.24-alpine
 
 USER root
 
-RUN apk add certbot
-
-RUN mkdir -p /var/log/letsencrypt && mkdir -p /var/lib/letsencrypt && mkdir -p /etc/letsencrypt \
-    && chown -R nginx:nginx /var/log/letsencrypt \
-    && chown -R nginx:nginx /var/lib/letsencrypt \
-    && chown -R nginx:nginx /etc/letsencrypt
-
 RUN mkdir -p /var/www/html/ \
     && mkdir -p /var/www/html/public/
 
