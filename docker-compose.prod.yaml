@@ -12,7 +12,7 @@ services:
       - digistock-prod-network
       - digistock-prod-cache-network
     volumes:
-      - digistock-prod-php-fpm-project:/var/www/mazttek.studio/public
+      - digistock-prod-php-fpm-project:/var/www/mazttek.studio/public/
     depends_on:
       - db
     deploy:
