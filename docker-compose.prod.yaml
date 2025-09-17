@@ -28,7 +28,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./prod/nginx/logs/:/var/log/nginx/
+      - ./prod/nginx/mazttek.studio/logs/:/var/log/nginx/mazttek.studio/logs/
       - digistock-prod-php-fpm-project-public:/var/www/mazttek.studio/public
     networks:
       - digistock-prod-network
