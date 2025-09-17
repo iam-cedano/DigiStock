@@ -49,7 +49,7 @@ RUN echo "extension=memcached.so" > /etc/php83/conf.d/zzz-memcached.ini
 COPY ./php-fpm/php/php.ini /etc/php83/php.ini
 COPY ./php-fpm/php/low-memory.ini /etc/php83/conf.d/zz-low-memory.ini
 
-WORKDIR /var/www/mazttek.studio/
+WORKDIR /var/www/mazttek.studio/public/
 
 EXPOSE 9000
 
