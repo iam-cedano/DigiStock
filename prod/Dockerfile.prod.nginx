@@ -9,6 +9,8 @@ COPY ./nginx/mazttek.studio/ /etc/nginx/sites-available/mazttek.studio
 RUN mkdir -p /var/www/digistock.mazttek.studio/public \
     && mkdir -p /var/www/mazttek.studio/public \
     && mkdir -p /var/log/nginx \
+    && mkdir -p /var/log/nginx/mazttek.studio/ \
+    && mkdir -p /var/log/nginx/digistock.mazttek.studio/ \
     && mkdir -p /etc/nginx/sites-enabled/ \
     && chown -R nginx:nginx /var/www /var/log/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
 
