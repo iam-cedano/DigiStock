@@ -2,13 +2,19 @@ FROM nginxinc/nginx-unprivileged:1.24-alpine
 
 USER root
 
-RUN mkdir -p /var/www/html/ \
-    && mkdir -p /var/www/html/public/
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/digistock.mazttek.studio/ /etc/nginx/sites-available/digistock.mazttek.studio
+COPY ./nginx/mazttek.studio/ /etc/nginx/sites-available/mazttek.studio
+
+RUN mkdir -p /var/www/digistock.mazttek.studio/public \
+    && mkdir -p /var/www/mazttek.studio/public \
+    && mkdir -p /var/log/nginx \
+    && mkdir -p /etc/nginx/sites-enabled/ \
+    && chown -R nginx:nginx /var/www /var/log/nginx /etc/nginx/sites-available /etc/nginx/sites-enabled
+
+RUN ln -s /etc/nginx/sites-available/digistock.mazttek.studio /etc/nginx/sites-enabled/ \
+    && ln -s /etc/nginx/sites-available/mazttek.studio /etc/nginx/sites-enabled/
 
 COPY --chown=nginx:nginx ./nginx/certificates/ /etc/letsencrypt/live/mazttek.studio/
-
-RUN chown -R nginx:nginx /var/www/html
-
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 USER nginx

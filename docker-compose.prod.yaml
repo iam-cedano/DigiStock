@@ -12,7 +12,7 @@ services:
       - digistock-prod-network
       - digistock-prod-cache-network
     volumes:
-      - digistock-prod-php-fpm-project:/var/www/html
+      - digistock-prod-php-fpm-project:/var/www/mazttek.studio/public
     depends_on:
       - db
     deploy:
@@ -29,7 +29,7 @@ services:
       - "443:443"
     volumes:
       - ./prod/nginx/logs/:/var/log/nginx/
-      - digistock-prod-php-fpm-project-public:/var/www/html/public
+      - digistock-prod-php-fpm-project-public:/var/www/mazttek.studio/public
     networks:
       - digistock-prod-network
     depends_on:
